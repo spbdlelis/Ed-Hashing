@@ -132,12 +132,6 @@ int main(){
     dijkstra(&g, visitados, isNumber);
     printpath(g,80);
 
-
-
-    /* for(int i = 0 ; i < 81 ; i++)
-        printf("linha %d -> %d : %d \n", i, g->shortTable[i][0],g->shortTable[i][1]); */
-
-
 }
 
 void printpath(grafo* g, int node){
