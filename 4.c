@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<sys/time.h>
 
 typedef struct g{
     float **matriz;
@@ -28,6 +29,7 @@ int canGo(grafo *g, lista* visitados ,int cidade ,float dinheiro);
 int len(lista* l);
 
 int main(){
+    struct timeval start,finish;
     grafo *g;
     int nvertices;
     int o, d;
@@ -49,14 +51,16 @@ int main(){
         g = inserirAresta(g,o,d,c);
         scanf("%d %d %f",&o,&d,&c);
     }
-    printMatrix(g);
 
     int partida, destino;
     printf("Digite o ponto de partida (1 - %d) >> ", nvertices); scanf("%d",&partida);
     printf("Digite o ponto de destino (1 - %d) >> ", nvertices); scanf("%d", &destino);
     float trust = 1;
+    gettimeofday(&start, NULL);
     deepSearch(g, l, partida, destino, trust);
+    gettimeofday(&finish, NULL);
     printf("bestTrust: %.2f%%, path: ", Besttrust*100); printList(path); printf("\n");
+    printf("%ld microseconds\n",(finish.tv_sec-start.tv_sec) * (int)1e6 + (finish.tv_usec-start.tv_usec));
 }
 
 

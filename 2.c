@@ -1,3 +1,4 @@
+#include<sys/time.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
@@ -129,12 +130,16 @@ int main(){
     printf("o menor disco está na torre 1, o segundo menor está na torre 2,\n o terceiro na torre 2 e o maior disco na torre 1\n");
     scanf("%d %d %d %d", is, is+1, is+2, is+3);
     int isNumber = 3*3*3*(is[0]-1)+3*3*(is[1]-1)+3*(is[2]-1)+is[3]-1;
+    struct timeval start, finish;
     //printf("Isnumber %d \n", isNumber);
+    gettimeofday(&start, NULL);
     bellmanFord(&g, isNumber);
+    gettimeofday(&finish, NULL);
     for(int i=0;i<81;i++){
         printf("linha %d: %d // %d\n", i, g->shortTable[i][0], g->shortTable[i][1]);
     }
     printpath(g,80);
+    printf("%ld microseconds\n",(finish.tv_sec-start.tv_sec) * (int)1e6 + (finish.tv_usec-start.tv_usec));
 
 }
 
@@ -143,7 +148,7 @@ void bellmanFord(grafo **g, int partida){
     (*g)->shortTable[partida][1] = cost;
     (*g)->shortTable[partida][0] = partida;
     int altered = True;
-    for(int i=0; i<80 && altered;i++){
+    for(int i=0; i<80 && altered;i++){ //parar quando não houver alterações ou iterar n-1 vezes
         altered = False;
         for(int k=0;k<81;k++){
             if((*g)->shortTable[k][1]!=INT_MAX){

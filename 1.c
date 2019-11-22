@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include <sys/time.h>
 #define TAM 4
 #define True 1
 #define False 0
@@ -65,6 +66,7 @@ void printpath(grafo* g, int node);
 
 
 int main(){
+    struct timeval start, finish;
     grafo *g;
     int ncidades;
     int o, d;
@@ -97,15 +99,15 @@ int main(){
     }
 
     //Setando os níveis para os nós
-    lista *ff, *fp;
+    /* lista *ff, *fp;
     ff=NULL;
     fp=NULL;
     addList(&fp, 0);
-    g = atribuiNivel(g, 1, fp, ff);
+    g = atribuiNivel(g, 1, fp, ff); */
 
 
     // O bloco comentado representa a mostragem dos estados acompanhados de suas respectivas adjacências, para visualizar basta descomentar
-    for(int i=0;i<40;i++){
+    /* for(int i=0;i<40;i++){
         printState(g->states[i]); printf(" %2d ",i);
         printf("linha %2d: ", i);
         for(int j=0;j<3;j++){
@@ -119,7 +121,7 @@ int main(){
         }
         printf("\n");
     }
-    printf("      \t");printState(g->states[80]);printf("\n");
+    printf("      \t");printState(g->states[80]);printf("\n"); */
     // Fim do bloco de visualização
 
     int is[4];
@@ -129,9 +131,11 @@ int main(){
     scanf("%d %d %d %d", is, is+1, is+2, is+3);
     int isNumber = 3*3*3*(is[0]-1)+3*3*(is[1]-1)+3*(is[2]-1)+is[3]-1;
     //printf("Isnumber %d \n", isNumber);
+    gettimeofday(&start, NULL);
     dijkstra(&g, visitados, isNumber);
+    gettimeofday(&finish, NULL);
     printpath(g,80);
-
+    printf("%ld microseconds\n",(finish.tv_sec-start.tv_sec) * (int)1e6 + (finish.tv_usec-start.tv_usec));
 }
 
 void printpath(grafo* g, int node){
