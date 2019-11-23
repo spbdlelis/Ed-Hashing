@@ -57,13 +57,29 @@ int main(){
 void hashFuncB(char* mat, int* ocupados, int flagFull){
     int position = (mat[0]-48)*100+(mat[2]-48)*10+(mat[5]-48);
     position += ((mat[1]-48)*100+(mat[3]-48)*10+(mat[4]-48));
+    position %= 1000;
     position %= SIZE;
-    if(isOccupied(ocupados, position) && !flagFull){ // Se existe na lista e não está cheio
-        position = (position+7)%SIZE;
+    int cont = 0;
+    int flag = True;
+    while(isOccupied(ocupados, position) && !flagFull && position+7<SIZE){ // Se existe na lista e não está cheio
+        position += 7;
         collisions++;
-    }else{ // Se não existe ou não está cheio
-        if(!flagFull) // se não está cheio
+        flag = 0;
+        cont++;
+    }
+    if(!flag){
+        if(ocupados[position] == 0)
             ocupados[position] = 1;
+        else
+            collisions++;
+    }
+    if (flag){ // Se não existe ou está cheio
+        if(!flagFull){ // se não está cheio
+            if(ocupados[position] == 0)
+                ocupados[position] = 1;
+            else
+                collisions++;
+        } 
         else{ // se está cheio
             ocupados[position] = 1;
             collisions++;
@@ -83,12 +99,30 @@ void hashFuncA(char* mat, int* ocupados, int flagFull){
     int firstdigit = mat[4] - 48;
     int separated = (mat[5]-48)*100+(mat[1]-48)*10+(mat[3]-48);
     separated %= SIZE;
-    if(isOccupied(ocupados, separated) && !flagFull){ // Se existe na lista e não está cheio
-        separated = (separated+firstdigit)%SIZE;
+    int cont = 0;
+    int flag = 1;
+    while(isOccupied(ocupados, separated) && !flagFull && separated<SIZE){ // Se existe na lista e não está cheio
+        separated += firstdigit;
         collisions++;
-    }else{ // Se não existe ou não está cheio
-        if(!flagFull) // se não está cheio
+        flag = 0;
+        cont++;
+        if (firstdigit == 0){
+            break;
+        }
+    }
+    if(!flag){
+        if(ocupados[separated] == 0)
             ocupados[separated] = 1;
+        else
+            collisions++;
+    }
+    if (flag){ // Se não existe ou está cheio
+        if(!flagFull){ // se não está cheio
+            if(ocupados[separated] == 0)
+                ocupados[separated] = 1;
+            else
+                collisions++;
+        }
         else{ // se está cheio
             ocupados[separated] = 1;
             collisions++;
@@ -102,10 +136,10 @@ funcionario readFunc(){
     //printf("Matrícula >> ");
     scanf("%s",f.mat);setbuf(stdin,NULL);
     //printf("Nome >> ");
-    scanf("%[^\n]",f.nome);setbuf(stdin,NULL);
+    //scanf("%[^\n]",f.nome);setbuf(stdin,NULL);
     //printf("Função >> ");
-    scanf("%[^\n]",f.funcao);setbuf(stdin,NULL);
+    //scanf("%[^\n]",f.funcao);setbuf(stdin,NULL);
     //printf("Salário >> ");
-    scanf("%f",&f.salario);setbuf(stdin,NULL);
+    //scanf("%f",&f.salario);setbuf(stdin,NULL);
     return f;
 }
