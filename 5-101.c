@@ -3,7 +3,7 @@
 #include<string.h>
 #define True 1
 #define False 0
-#define SIZE 150
+#define SIZE 101
 
 int collisions = 0;
 
@@ -32,7 +32,7 @@ int main(){
         else
             hashFuncA(f.mat,ocupados, 1);
     }
-    printf("%d Colisões\n\n", collisions);
+    printf("%d\t", collisions);
 
     free(ocupados);
     ocupados = (int*)calloc(sizeof(int),SIZE);
@@ -46,7 +46,7 @@ int main(){
             hashFuncB(f.mat,ocupados, 1);
     }
 
-    printf("%d Colisões\n\n", collisions);
+    printf("%d\n", collisions);
 
 
 
