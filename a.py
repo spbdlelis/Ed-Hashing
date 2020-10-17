@@ -4,3 +4,5 @@ for x in range(len(lista)-1,-1,-1):
 L = []
 
 print(len(L))
+
+print('testando')
